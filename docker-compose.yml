@@ -1,0 +1,17 @@
+services:
+  game:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - antiquity_data:/app/data
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATA_DIR: /app/data
+      # Optionnel : APP_ORIGIN=https://votre-domaine
+      # Optionnel : SESSION_SECRET=... (sinon generation automatique persistante)
+
+volumes:
+  antiquity_data:

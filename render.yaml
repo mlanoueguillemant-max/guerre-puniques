@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: antiquity-conquest
+    runtime: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install --omit=dev --no-audit --no-fund
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    maxShutdownDelaySeconds: 30
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: antiquity-conquest-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATA_DIR
+        value: /tmp/antiquity-data
+
+databases:
+  - name: antiquity-conquest-db
+    region: frankfurt
+    plan: free
+    databaseName: antiquity_conquest
+    user: antiquity_app
